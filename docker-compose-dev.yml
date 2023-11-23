@@ -1,0 +1,43 @@
+version: "3.8"
+services: 
+  app:
+    container_name: pixelwar-app
+    build:
+      dockerfile: Dockerfile.dev
+      context: . #if your Dockerfile is not at the same level change the path here (./frontend)
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 3000:3000
+    networks:
+      - pixelwar-common
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+    # restart: always
+
+  db:
+    container_name: pixelwar-db
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: pixelwar
+      POSTGRES_DB: pixelwar
+      DATABASE_HOST: 127.0.0.1
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - pixelwar-common
+    tty: true
+    stdin_open: true
+
+volumes:
+  pgdata:
+
+networks:
+  pixelwar-common:
+    driver: bridge
+
+  

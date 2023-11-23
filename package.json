@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npx prisma db push && next dev",
+    "provision": "prisma db push --force-reset",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
